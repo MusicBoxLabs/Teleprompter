@@ -1,0 +1,36 @@
+[BEM-VINDO]
+Este é o Music Box Teleprompter.
+Esta faixa é uma música de exemplo.
+
+[O PEDAL]
+Pise no pedal e segure: a letra desce.
+Solte o pedal: a letra para na hora.
+Com o dedo, você sobe ou desce
+quando quiser, a qualquer momento.
+
+[A FAIXA DE LEITURA]
+A linha brilhante no meio da tela
+é onde os olhos devem ficar.
+Cada verso passa por ela
+no ritmo que o seu pé mandar.
+
+[OS BOTÕES DE BAIXO]
+LISTA volta para as músicas da pasta.
+INÍCIO volta ao começo da letra.
+PRÓXIMA abre a música seguinte.
+VEL muda a velocidade da rolagem.
+ROLAR faz a letra descer sem o pedal.
+
+[CORES]
+Letra fica amarela.
+Cifra fica branca, assim:
+G        D/F#      Em       C
+E marcadores entre colchetes ficam laranja.
+
+[SUAS MÚSICAS]
+Mande arquivos .txt de qualquer app
+tocando em Compartilhar e depois Music Box.
+Ou toque em IMPORTAR na lista de pastas.
+
+[FIM]
+A última linha fica azul: é o fim da música.

@@ -1,0 +1,10 @@
+node_modules/
+instalador/
+build/
+.gradle/
+*.jks
+*.keystore
+local.properties
+*.apk
+*.AppImage
+*.exe

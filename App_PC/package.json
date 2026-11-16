@@ -1,0 +1,52 @@
+{
+  "name": "musicbox-teleprompter",
+  "productName": "Music Box Teleprompter",
+  "version": "1.0.0",
+  "description": "Music Box Teleprompter para PC (Windows e Linux)",
+  "author": "Music Box",
+  "main": "main.js",
+  "scripts": {
+    "sincronizar": "node sincronizar.js",
+    "start": "node sincronizar.js && electron .",
+    "dist-win": "node sincronizar.js && electron-builder --win --publish never",
+    "dist-linux": "node sincronizar.js && electron-builder --linux --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "br.com.musicbox.teleprompter",
+    "productName": "Music Box Teleprompter",
+    "files": [
+      "main.js",
+      "preload.js",
+      "nucleo.js",
+      "www/**/*",
+      "amostras/**/*",
+      "icone.png"
+    ],
+    "directories": {
+      "output": "instalador"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "icone.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Music Box"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "icone.png",
+      "category": "AudioVideo"
+    },
+    "publish": null
+  }
+}

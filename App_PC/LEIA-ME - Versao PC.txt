@@ -1,0 +1,82 @@
+﻿══════════════════════════════════════════════════════════════════
+  MUSIC BOX TELEPROMPTER — VERSÃO PARA PC (WINDOWS E LINUX)
+══════════════════════════════════════════════════════════════════
+
+É o mesmo programa do celular, com a mesma tela, rodando no computador.
+O pedal (de cabo ou Bluetooth) é um teclado: o Windows e o Linux já o
+reconhecem sem instalar nada.
+
+──────────────────────────────────────────────────────────────────
+  COMO RODAR NO SEU PC (para testar)
+──────────────────────────────────────────────────────────────────
+  1. Instale o Node.js: https://nodejs.org (botão "LTS"). Só uma vez.
+  2. Dê dois cliques em  1_ABRIR_O_PROGRAMA.bat
+     Na primeira vez ele baixa as ferramentas (alguns minutos, com
+     internet). Depois abre na hora.
+
+──────────────────────────────────────────────────────────────────
+  COMO GERAR O INSTALADOR (para entregar a outras pessoas)
+──────────────────────────────────────────────────────────────────
+  WINDOWS: dois cliques em  2_GERAR_INSTALADOR_WINDOWS.bat
+     Sai um arquivo .exe na pasta "instalador" (cerca de 80 a 100 MB).
+     Quem recebe só instala; não precisa de Node.js.
+     Sem certificado de assinatura (pago), o Windows mostra o aviso
+     "O Windows protegeu o computador" na primeira vez: clicar em
+     "Mais informações" > "Executar assim mesmo".
+
+  LINUX: num computador com Linux, rodar  sh gerar_instalador_linux.sh
+     Sai um arquivo .AppImage na pasta "instalador". Para usar: marcar
+     como executável e dar dois cliques.
+
+──────────────────────────────────────────────────────────────────
+  COMO USAR
+──────────────────────────────────────────────────────────────────
+  MÚSICAS
+  • Ficam em  Documentos\MusicBox  (uma subpasta para cada pasta do app).
+  • Para colocar músicas: arraste arquivos .txt ou um .zip para dentro
+    da janela do programa. Ou use ⋮ da pasta > IMPORTAR.
+  • Um .zip já sugere uma pasta nova com o nome dele.
+  • Também dá para copiar os .txt direto para Documentos\MusicBox pelo
+    Windows Explorer.
+
+  TECLAS
+    Page Down ... desce a letra (é a tecla do pedal)
+    Page Up ..... sobe a letra
+    Setas ....... na leitura, também descem e sobem
+    Esc ......... volta uma tela
+    F11 ......... tela cheia (liga e desliga)
+    F9 .......... tela em pé (troca: normal > 90° > 270° > normal)
+
+  TELA NORMAL OU EM PÉ
+  • O padrão é a tela normal (monitor deitado).
+  • Para usar o monitor EM PÉ no palco: Configurações > TELA, ou a tecla
+    F9. Existem dois sentidos (90° e 270°): use o que ficar de cabeça
+    para cima no seu monitor. A escolha fica salva.
+  • Com a tela em pé, o mouse anda "de lado". O mais prático é escolher
+    a música com a tela normal e apertar F9 depois, ou usar o pedal.
+  • TV ou segundo monitor: ligue pelo cabo HDMI, arraste a janela para
+    lá e aperte F11.
+
+  PEDAL
+  • Na tela das pastas aparece "PEDAL: PISE PARA TESTAR". Ao pisar, vira
+    "PEDAL OK". (No PC o programa não tem como saber qual pedal é.)
+  • Pedal de cabo: ligar SEM pisar. Pisado ao ligar, ele vira pen drive.
+  • Pedal Bluetooth: parear no Bluetooth do Windows/Linux.
+
+──────────────────────────────────────────────────────────────────
+  PARA QUEM MEXE NO CÓDIGO
+──────────────────────────────────────────────────────────────────
+  • A tela é UMA só para celular e PC: fica em
+    App_Android\app\src\main\assets\www\index.html
+    Toda vez que o programa abre ou o instalador é gerado, ela é copiada
+    de lá para App_PC\www (arquivo sincronizar.js). O mesmo vale para as
+    músicas de amostra. Não edite as cópias em App_PC\www e
+    App_PC\amostras: elas são sobrescritas.
+  • main.js .... janela, teclas, importação (o papel do MainActivity.java)
+  • nucleo.js .. pastas, músicas, acentos e .zip
+  • preload.js . ponte entre a tela e o programa
+
+  O QUE FOI TESTADO: a versão Linux foi rodada e testada aqui (abrir,
+  pedal por Page Down/Up, tela em pé nos dois sentidos, arrastar .zip,
+  tela cheia, instalador .AppImage). A versão Windows usa o mesmo código,
+  mas ainda não foi rodada num Windows de verdade.

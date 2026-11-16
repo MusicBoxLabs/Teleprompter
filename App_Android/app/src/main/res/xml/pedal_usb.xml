@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pedal Music Box (ESP32-S3): VID 0x303A = 12346, PID 0x4D42 = 19778.
+         Se mudar o PID no firmware, mude aqui também (em decimal). -->
+    <usb-device vendor-id="12346" product-id="19778" />
+</resources>

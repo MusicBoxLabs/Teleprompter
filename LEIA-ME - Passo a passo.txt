@@ -1,0 +1,269 @@
+══════════════════════════════════════════════════════════════════
+  MUSIC BOX TELEPROMPTER — VERSÃO APLICATIVO (APK) + PEDAL USB
+══════════════════════════════════════════════════════════════════
+
+Como funciona:
+  • O app Android tem a mesma cara do FTSW1, mas tudo funciona no dedo:
+    pastas, músicas, renomear, apagar, mover e importar (botão ⋮ de cada item).
+    Abre direto nas pastas. A tela gira junto com o celular ou tablet
+    (em pé ou deitado), sem precisar escolher modo nenhum.
+  • Na leitura, o PEDAL faz a letra descer (segurou = rola; soltou = para).
+    O dedo sobe ou desce a qualquer momento.
+  • O pedal é um ESP32-S3 que vira TECLADO USB (tecla Page Down).
+    Ligado no celular pelo cabo OTG, sem Wi-Fi, sem bateria e sem pareamento.
+  • O APK fica guardado DENTRO do pedal: segurando o pedal enquanto liga o
+    cabo, ele vira um pen drive com o MusicBox.apk para instalar.
+
+
+──────────────────────────────────────────────────────────────────
+  O QUE TEM NESTA PASTA
+──────────────────────────────────────────────────────────────────
+
+  App_Android\                    Projeto do aplicativo (abrir no Android Studio)
+    app\src\main\assets\www\index.html     A interface (HTML, igual ao FTSW1)
+    app\src\main\assets\amostras\          Músicas de "amostra grátis"
+    app\src\main\java\...\MainActivity.java   Pastas, compartilhar, pedal
+
+  Pedal_ESP32S3\
+    MusicBoxPedal_S3\MusicBoxPedal_S3.ino   Firmware do pedal (Arduino IDE)
+    Binario_pronto\MusicBoxPedal_S3_completo_0x0.bin
+                                     Firmware já compilado (gravação sem IDE)
+    Para_o_pendrive\LEIA-ME.txt     Texto que vai no pen drive, ao lado do APK
+
+  Telas_do_app\                   Imagens das telas
+
+
+══════════════════════════════════════════════════════════════════
+  PARTE 1 — O PEDAL
+══════════════════════════════════════════════════════════════════
+
+PEÇAS
+  • ESP32-S3 Super Mini (USB-C nativo). Atenção: tem que ser "S3".
+    O ESP32 comum (WROOM) e o ESP32-C3 NÃO viram teclado USB.
+  • Pedal/footswitch do tipo "normalmente aberto" (pode ser o mesmo do FTSW1).
+  • Cabo ou adaptador OTG: USB-C (pedal) para USB-C ou micro-USB (celular).
+
+LIGAÇÃO
+  Pedal ──── GPIO 4
+  Pedal ──── GND
+  Só isso. Não precisa de resistor. Opcional: capacitor de 100 nF entre o
+  GPIO 4 e o GND, se o cabo do pedal for comprido.
+
+GRAVAR O FIRMWARE — opção A: Arduino IDE
+  1. Instale o pacote "esp32" da Espressif (versão 3.x) no Gerenciador de Placas.
+  2. Abra Pedal_ESP32S3\MusicBoxPedal_S3\MusicBoxPedal_S3.ino
+  3. Menu Ferramentas:
+       Placa ............ ESP32S3 Dev Module
+       USB Mode ......... USB-OTG (TinyUSB)          ← obrigatório
+       USB CDC On Boot .. Disabled
+       Flash Size ....... 4MB
+       Partition Scheme . No OTA (1MB APP/3MB FATFS)
+  4. Coloque a placa em modo de gravação: segure BOOT, aperte e solte RST,
+     solte BOOT. Clique em Carregar.
+  5. Terminou? Aperte RST uma vez.
+  (Compila sem erros com o pacote esp32 3.1.1 e 3.3.12.)
+  Depois de gravado, a placa deixa de aparecer como porta COM: ela virou
+  teclado. Para gravar de novo, repita o BOOT + RST. Regravar pela Arduino
+  IDE não apaga o APK que está no pen drive interno.
+
+GRAVAR O FIRMWARE — opção B: sem instalar nada
+  1. No Chrome do PC, abra https://espressif.github.io/esptool-js/
+  2. Coloque a placa em modo de gravação (BOOT + RST, como acima).
+  3. Clique em "Connect" e escolha a porta da placa.
+  4. Em "Flash Address" deixe 0x0 e escolha o arquivo
+     Binario_pronto\MusicBoxPedal_S3_completo_0x0.bin
+  5. "Program". Ao terminar, aperte RST.
+  Observação: esse arquivo apaga o pen drive interno (o APK). Grave o APK
+  depois, como na PARTE 3.
+
+O LED DA PLACA
+  Verde fraco ........ modo pedal, esperando
+  Verde forte ........ pedal pisado
+  Azul piscando ...... modo pen drive (instalação)
+  Vermelho piscando .. erro de partição (refaça o passo "Partition Scheme")
+
+TESTAR O PEDAL ANTES DE EXISTIR O APP
+  Ligue o pedal no celular pelo cabo OTG e abra qualquer app de "teste de
+  teclado" (Key Test, Keyboard Tester etc.). Ao pisar deve aparecer
+  PAGE_DOWN apertada; ao soltar, PAGE_DOWN solta.
+
+
+══════════════════════════════════════════════════════════════════
+  PARTE 2 — O APLICATIVO
+══════════════════════════════════════════════════════════════════
+
+PRÉVIA NO PC (antes de compilar)
+  Dê dois cliques em App_Android\app\src\main\assets\www\index.html para
+  abrir no Chrome. A interface funciona com músicas de demonstração.
+  A tecla PAGE DOWN faz o papel do pedal; PAGE UP faz a letra subir.
+
+COMPILAR O APK
+  1. Instale o Android Studio (developer.android.com/studio).
+  2. File > Open > escolha a pasta App_Android.
+  3. Espere a sincronização ("Gradle sync") terminar. Na primeira vez ele
+     baixa as ferramentas; pode demorar. Se ele oferecer atualizar o
+     "Android Gradle Plugin", pode aceitar.
+  4. Para TESTAR no seu celular (jeito mais fácil):
+       • No celular: Configurações > Sobre > toque 7 vezes em
+         "Número da versão" para ligar o modo desenvolvedor; depois, em
+         Opções do desenvolvedor, ative "Depuração USB".
+       • Ligue o celular no PC pelo cabo, escolha o aparelho no topo do
+         Android Studio e clique no botão ▶ (Run).
+       O app é instalado e abre. Pelo que o Google anunciou, a instalação
+       feita pelo Android Studio (via ADB) não passa pela nova exigência
+       de desenvolvedor verificado.
+  5. Para gerar o APK FINAL (o que vai dentro do pedal):
+       Build > Clean Project (garante que nada antigo fique guardado).
+       Build > Generate Signed App Bundle / APK > APK > Next.
+       PRIMEIRA VEZ: "Create new..." para criar a keystore (arquivo .jks de
+       assinatura). Crie antes uma pasta para ela, fora do projeto
+       (ex.: Documentos\CHAVES ANDROID), e dê o nome MusicBox.jks.
+       DAS OUTRAS VEZES: use a MESMA keystore ("Choose existing...").
+       Escolha "release" e clique em Create.
+       O APK sai em App_Android\app\release\ — o nome tem que ser
+       MusicBox.apk.
+       O "MusicBoxApp.app" que aparece no campo Module é só o nome interno
+       do projeto; no celular o app se chama "Music Box".
+  6. ATUALIZAR quem já tem o app: instalando o APK novo por cima aparece
+     "Atualizar" e as músicas são mantidas (desde que a keystore seja a
+     mesma).
+
+  !! GUARDE A KEYSTORE E A SENHA EM LUGAR SEGURO (e com cópia) !!
+     Toda atualização futura do app precisa ser assinada com ela. Se perder,
+     os compradores não conseguem atualizar: teriam que desinstalar (e
+     perder as músicas). Ela também é usada no registro de desenvolvedor.
+
+AS MÚSICAS DE AMOSTRA
+  Ficam em App_Android\app\src\main\assets\amostras\
+  Cada subpasta vira uma pasta no app. Coloque os .txt que quiser e
+  compile de novo. Hoje existe a pasta ANOS_80 (no app: ANOS 80) com:
+     00 - Como usar o Music Box
+     01 - A-ha - Take On Me
+     02 - U2 - With Or Without You
+  O app só copia as amostras na PRIMEIRA instalação. Em quem já tem o app,
+  elas entram por Configurações > Restaurar as músicas de amostra.
+  Atenção: letras de músicas de outros autores têm direitos autorais.
+  Para um produto à venda, use só o que você tem direito de distribuir.
+
+
+══════════════════════════════════════════════════════════════════
+  PARTE 3 — COLOCAR O APK DENTRO DO PEDAL
+══════════════════════════════════════════════════════════════════
+
+  1. SEGURE O PEDAL PISADO e, ainda pisando, ligue o cabo no PC.
+     Pode soltar depois de 1 segundo. O LED pisca azul.
+  2. Aparece um pen drive (cerca de 3 MB) com um LEIA-ME.txt.
+     Se o LEIA-ME.txt for apagado, o pedal cria outro sozinho na próxima
+     vez que entrar neste modo. Uma versão atualizada do texto está em
+     Pedal_ESP32S3\Para_o_pendrive\LEIA-ME.txt (é só copiar por cima).
+  3. Copie SÓ o arquivo MusicBox.apk para dentro dele (sem pastas). Ao
+     atualizar, apague o APK velho e cole o novo.
+     As pastas "Android" e "LOST.DIR" são criadas pelo celular; podem ficar.
+  4. Ejete o pen drive no Windows ("Ejetar") e desligue o cabo.
+  5. Ligue de novo SEM pisar: volta a ser pedal.
+
+  Se o Windows disser que o disco precisa ser formatado, pode formatar
+  (FAT, padrão) e copiar de novo.
+
+
+══════════════════════════════════════════════════════════════════
+  PARTE 4 — O QUE O COMPRADOR FAZ
+══════════════════════════════════════════════════════════════════
+
+  Primeira vez:
+  1. Segura o pedal pisado e liga o cabo no celular.
+  2. Abre o gerenciador de arquivos ("Arquivos"), entra no pen drive
+     MUSICBOX e toca em MusicBox.apk > Instalar.
+     (Na primeira vez o Android pede para permitir "instalar apps desta
+     fonte": é um toque.)
+  3. Desliga o cabo e liga de novo sem pisar. O Android pergunta se quer
+     abrir o Music Box quando o pedal for conectado: marcar "Sempre".
+
+  Daí em diante: liga o pedal e toca.
+
+  No app:
+  • Configurações > "USAR A PASTA Documentos/MusicBox" libera a pasta
+    visível. As músicas ficam acessíveis pelo cabo USB no PC e por
+    qualquer gerenciador de arquivos. Sem isso, o app funciona do mesmo
+    jeito, mas guarda as músicas na memória interna (escondida).
+  • Para receber músicas: em qualquer app (WhatsApp, Drive, e-mail,
+    gerenciador de arquivos), selecionar os .txt e tocar em
+    Compartilhar > Music Box. Pode mandar vários de uma vez; o app
+    pergunta em qual pasta salvar. Se o Music Box não aparecer de cara,
+    arrastar a janela de compartilhar para cima e rolar a lista de apps.
+  • Outro caminho: no app, ⋮ da pasta > IMPORTAR abre o seletor de
+    arquivos do Android (tocar e segurar para marcar vários).
+  • Pacote .zip: um .zip com várias músicas (200, por exemplo) pode ser
+    compartilhado ou importado. O app pega só os .txt de dentro e já
+    sugere uma pasta nova com o nome do zip ("Anos 80.zip" vira a pasta
+    ANOS 80). Arquivo .rar NÃO é aceito: converter para .zip.
+  • As músicas importadas são COPIADAS para o app: o original pode ser
+    apagado. Música com o mesmo nome é substituída pela nova.
+  • Corrigir uma letra: editar o .txt no PC e mandar de novo (o editor
+    dentro do app está desativado).
+  • Arquivos .txt com acento feitos no Bloco de Notas antigo (ANSI) são
+    reconhecidos e convertidos automaticamente.
+  • Tamanho da letra: a linha mais comprida do .txt define um único
+    tamanho para a música inteira, para nenhuma linha quebrar.
+  • Na tela de leitura: LISTA, INÍCIO e PRÓXIMA. A velocidade da rolagem
+    fica em Configurações.
+  • Na lista de músicas: IR PARA A PRÓXIMA PASTA passa de pasta em pasta.
+  • Na tela das pastas: COMO USAR O APP explica tudo ao comprador.
+  • Smart TV: ligar o espelhamento de tela do Android (Smart View,
+    Transmitir tela etc.) e, em Configurações, ativar "ESPELHAR NA SMART
+    TV". A tela fica travada deitada e a letra diminui até caberem pelo
+    menos 6 linhas abaixo da faixa de leitura.
+  • Pedais Bluetooth: o app aceita qualquer pedal que funcione como
+    teclado (Page Down / Page Up ou setas), inclusive com dois botões
+    (desce e sobe). O pareamento é feito no Bluetooth do Android. Com um
+    pedal de nome "Music Box ..." (Turner, Universal) conectado, a tela
+    das pastas mostra PEDAL: BLUETOOTH; pelo cabo mostra PEDAL: CONECTADO.
+  • Configurações > PEDAL: dá para trocar para "cada pisada liga/desliga".
+    Serve para pedais "vira-página" comerciais, que mandam só um toque
+    por pisada.
+
+══════════════════════════════════════════════════════════════════
+  PARTE 5 — ANTES DE VENDER
+══════════════════════════════════════════════════════════════════
+
+  1. IDENTIDADE DO APP: em App_Android\app\build.gradle o applicationId é
+     "br.com.musicbox.teleprompter". Se quiser outro (por exemplo, com o
+     domínio de um site seu), troque ANTES da primeira venda. Depois disso
+     não dá mais para mudar.
+  2. REGISTRO DE DESENVOLVEDOR: desde 30 de setembro de 2026, no Brasil,
+     celulares Android certificados só instalam apps de desenvolvedores
+     verificados pelo Google. Faça o cadastro no Android Developer Console
+     (para quem distribui fora da Play Store) e registre o app com a sua
+     keystore. Sem isso, o comprador teria que ligar o modo desenvolvedor
+     e esperar 24 horas para instalar.
+  3. PID USB: o pedal usa o VID da Espressif (0x303A) com PIDs 0x4D42 e
+     0x4D43. Para produção em série, peça PIDs próprios gratuitos em
+     github.com/espressif/usb-pids e troque no firmware e no arquivo
+     App_Android\app\src\main\res\xml\pedal_usb.xml (em decimal).
+
+
+══════════════════════════════════════════════════════════════════
+  O QUE PRECISA SER CONFIRMADO NOS SEUS TESTES
+══════════════════════════════════════════════════════════════════
+
+  Já funcionou no seu teste (placa ESP32-S3FH4R2 + seu celular): gravação
+  do firmware, pen drive no PC e no celular, instalação do APK pelo pen
+  drive e o pedal rolando a letra.
+
+  Ainda dependem do aparelho e devem ser conferidos:
+
+  1. PEN DRIVE EM OUTROS CELULARES: a maioria dos Android lê pen drive
+     pelo OTG, mas algum aparelho pode não reconhecer um disco tão
+     pequeno, e alguns exigem ligar "OTG" nas configurações. Alternativa:
+     mandar o APK pelo WhatsApp ou por um link no seu site.
+  2. ABRIR SOZINHO AO CONECTAR: depende de o Android avisar o app quando
+     um teclado USB é ligado. Se não abrir sozinho, basta abrir o app;
+     o pedal funciona igual.
+  3. TECLADO VIRTUAL: com o pedal ligado, o Android pode esconder o
+     teclado da tela na hora de renomear. O app tem o botão ⌨ para
+     forçar. Se não bastar: Configurações do Android > Idioma e entrada >
+     Teclado físico > "Mostrar teclado virtual".
+  4. COMPARTILHAR VÁRIOS .TXT e PEDAL: BLUETOOTH: feitos na última
+     versão e ainda não testados em aparelho.
+  5. VELOCIDADE: o padrão é 70 px/s, igual ao FTSW1. Ajuste no − / + das
+     Configurações.
