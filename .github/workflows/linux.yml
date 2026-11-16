@@ -1,0 +1,32 @@
+name: Gerar instalador Linux
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Instalar e gerar AppImage
+        working-directory: App_PC
+        run: |
+          npm install
+          npm run dist-linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Music-Box-Teleprompter-Linux
+          path: App_PC/instalador/*.AppImage
+      - name: Anexar ao release (quando for uma tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: App_PC/instalador/*.AppImage
