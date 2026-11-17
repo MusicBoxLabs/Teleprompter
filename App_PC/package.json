@@ -37,6 +37,7 @@
     },
     "nsis": {
       "oneClick": false,
+      "artifactName": "MusicBoxTeleprompter-Setup.${ext}",
       "allowToChangeInstallationDirectory": true,
       "shortcutName": "Music Box"
     },
@@ -44,6 +45,7 @@
       "target": [
         "AppImage"
       ],
+      "artifactName": "MusicBoxTeleprompter.${ext}",
       "icon": "icone.png",
       "category": "AudioVideo"
     },
