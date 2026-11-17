@@ -47,7 +47,7 @@ O Music Box Teleprompter é gratuito e de código aberto. Se ele foi útil para 
 **Chave aleatória:** `fce13f3c-310d-4c5a-8816-efb2e0458842`
 **Beneficiário:** Claudio Jose Toldo — Criciúma/SC
 
-![QR Code PIX](https://pix_qrcode.png)
+![QR Code PIX](pix_qrcode.png)
 
 Ou copie o código abaixo e cole no PIX Copia e Cola do app do seu banco:
 
