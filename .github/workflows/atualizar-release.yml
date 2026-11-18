@@ -31,7 +31,7 @@ jobs:
           cd App_PC/instalador
           ls -la
           f=$(ls *.exe | head -1)
-          cp "$f" MusicBoxTeleprompter-Setup.exe
+          [ "$f" = MusicBoxTeleprompter-Setup.exe ] || cp "$f" MusicBoxTeleprompter-Setup.exe
           gh release upload "${{ inputs.tag }}" MusicBoxTeleprompter-Setup.exe --clobber --repo "${{ github.repository }}"
 
   linux:
@@ -53,5 +53,5 @@ jobs:
           cd App_PC/instalador
           ls -la
           f=$(ls *.AppImage | head -1)
-          cp "$f" MusicBoxTeleprompter.AppImage
+          [ "$f" = MusicBoxTeleprompter.AppImage ] || cp "$f" MusicBoxTeleprompter.AppImage
           gh release upload "${{ inputs.tag }}" MusicBoxTeleprompter.AppImage --clobber --repo "${{ github.repository }}"
