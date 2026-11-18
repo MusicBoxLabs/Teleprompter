@@ -349,7 +349,6 @@ function renderConfig() {
     h += "<div class='item quebra' data-a='espelhar'><span class='nome'>ESPELHAR NA SMART TV: " + (espelharTV ? "<span class='key'>LIGADO</span> (tela travada deitada)" : "DESLIGADO (tela gira com o aparelho)") + "</span><span class='qtd'>trocar</span></div>";
     h += "<div class='item quebra' data-a='importar'><span class='nome'>&#8681; IMPORTAR ARQUIVOS .TXT DO CELULAR</span></div>";
   }
-  h += "<div class='item quebra' data-a='amostras'><span class='nome'>&#8635; RESTAURAR AS M&Uacute;SICAS DE AMOSTRA</span></div>";
   h += "<div class='item quebra' style='cursor:default'><span class='nome'>TESTE DO PEDAL</span><span class='pedal-badge' id='testePedal'>PISE NO PEDAL</span></div>";
   if (ehPC) h += "<div class='vazio'>As m&uacute;sicas ficam em <span class='key'>Documentos/MusicBox</span>. Para colocar m&uacute;sicas: arraste arquivos .txt ou um .zip para dentro desta janela, ou use IMPORTAR." +
       "<br>Monitor em p&eacute; no palco: troque a TELA para EM P&Eacute; 90&deg; ou 270&deg; (o que ficar de cabe&ccedil;a para cima). A tecla <span class='key'>F9</span> faz a mesma troca." +
@@ -377,7 +376,6 @@ acoes.pastaVisivel = function () {
   modalConfirmar('PASTA VIS&Iacute;VEL', 'O Android vai abrir uma tela de permiss&atilde;o. Ative <span class="key">Permitir acesso para gerenciar todos os arquivos</span> e volte para o app. As m&uacute;sicas atuais ser&atilde;o copiadas para Documentos/MusicBox.', 'ABRIR PERMISS&Atilde;O', function () { B.pedirPastaVisivel(); });
 };
 acoes.importar = function () { B.abrirSeletor(); };
-acoes.amostras = function () { var r = B.restaurarAmostras(); toast(r.ok ? 'Amostras restauradas (' + (r.qtd || 0) + ')' : 'Erro ao restaurar'); };
 
 function mudarVelocidade(delta) {
   velocidade = Math.max(10, Math.min(400, velocidade + delta));
