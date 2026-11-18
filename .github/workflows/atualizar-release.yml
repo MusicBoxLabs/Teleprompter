@@ -1,0 +1,53 @@
+name: Atualizar release (Windows e Linux)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release a atualizar"
+        default: "v1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Gerar instalador Windows
+        working-directory: App_PC
+        run: |
+          npm install
+          npm run dist-win
+      - name: Trocar o arquivo no release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd App_PC/instalador
+          cp "Music Box Teleprompter Setup 1.0.0.exe" "Music.Box.Teleprompter.Setup.1.0.0.exe"
+          gh release upload "${{ inputs.tag }}" "Music.Box.Teleprompter.Setup.1.0.0.exe" --clobber --repo "${{ github.repository }}"
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Gerar AppImage
+        working-directory: App_PC
+        run: |
+          npm install
+          npm run dist-linux
+      - name: Trocar o arquivo no release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd App_PC/instalador
+          cp "Music Box Teleprompter-1.0.0.AppImage" "Music.Box.Teleprompter-1.0.0.AppImage"
+          gh release upload "${{ inputs.tag }}" "Music.Box.Teleprompter-1.0.0.AppImage" --clobber --repo "${{ github.repository }}"
