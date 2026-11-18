@@ -29,8 +29,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd App_PC/instalador
-          cp "Music Box Teleprompter Setup 1.0.0.exe" "Music.Box.Teleprompter.Setup.1.0.0.exe"
-          gh release upload "${{ inputs.tag }}" "Music.Box.Teleprompter.Setup.1.0.0.exe" --clobber --repo "${{ github.repository }}"
+          ls -la
+          f=$(ls *.exe | head -1)
+          cp "$f" MusicBoxTeleprompter-Setup.exe
+          gh release upload "${{ inputs.tag }}" MusicBoxTeleprompter-Setup.exe --clobber --repo "${{ github.repository }}"
 
   linux:
     runs-on: ubuntu-latest
@@ -49,5 +51,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd App_PC/instalador
-          cp "Music Box Teleprompter-1.0.0.AppImage" "Music.Box.Teleprompter-1.0.0.AppImage"
-          gh release upload "${{ inputs.tag }}" "Music.Box.Teleprompter-1.0.0.AppImage" --clobber --repo "${{ github.repository }}"
+          ls -la
+          f=$(ls *.AppImage | head -1)
+          cp "$f" MusicBoxTeleprompter.AppImage
+          gh release upload "${{ inputs.tag }}" MusicBoxTeleprompter.AppImage --clobber --repo "${{ github.repository }}"
