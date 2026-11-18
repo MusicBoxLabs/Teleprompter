@@ -915,7 +915,7 @@ function modalMenu(titulo, ops) {
 function modalTexto(titulo, rotulo, valor, cb) {
   modalCb.ok = cb;
   abrirModal("<h3>" + titulo + "</h3><p>" + rotulo + "</p><input class='campo' id='mCampo' value='" + esc(valor || '') + "'>" +
-    "<div class='botoes'><button class='btn fraco' data-a='mFechar'>CANCELAR</button><button class='btn' data-a='mTeclado'>&#9000;</button><button class='btn ligado' data-a='mOk'>OK</button></div>");
+    "<div class='botoes'><button class='btn fraco' data-a='mFechar'>CANCELAR</button><button class='btn' data-a='mTeclado'>&#9000; TECLADO</button><button class='btn ligado' data-a='mOk'>OK</button></div>");
   var inp = document.getElementById('mCampo');
   inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); acoes.mOk(); } });
   setTimeout(function () { inp.focus(); inp.select(); B.teclado(); }, 120);
