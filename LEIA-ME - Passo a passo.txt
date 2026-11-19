@@ -216,8 +216,9 @@ AS MÚSICAS DE AMOSTRA
   • Pedais Bluetooth: o app aceita qualquer pedal que funcione como
     teclado (Page Down / Page Up ou setas), inclusive com dois botões
     (desce e sobe). O pareamento é feito no Bluetooth do Android. Com um
-    pedal de nome "Music Box ..." (Turner, Universal) conectado, a tela
-    das pastas mostra PEDAL: BLUETOOTH; pelo cabo mostra PEDAL: CONECTADO.
+    pedal de nome "Music Box ..." (Turner, Universal) ou "BoxTurner"
+    conectado, a tela das pastas mostra PEDAL: BLUETOOTH; pelo cabo mostra
+    PEDAL: CONECTADO.
   • Configurações > PEDAL: dá para trocar para "cada pisada liga/desliga".
     Serve para pedais "vira-página" comerciais, que mandam só um toque
     por pisada.

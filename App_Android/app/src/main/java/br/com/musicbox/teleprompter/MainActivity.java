@@ -268,7 +268,8 @@ public class MainActivity extends Activity {
      * Que pedal está ligado agora: "usb" (cabo), "bt" (Bluetooth) ou "" (nenhum).
      * O pedal aparece para o Android como um teclado. Vale qualquer teclado
      * externo cujo nome tenha "Music Box" (Music Box Pedal, Music Box Turner,
-     * Music Box Universal...) ou que seja da Espressif (ESP32).
+     * Music Box Universal...) ou "BoxTurner" (pedal Bluetooth com nome
+     * comercial), ou que seja da Espressif (ESP32).
      * Se existe um aparelho USB desses ligado no cabo, é "usb"; se o teclado
      * está lá mas não há nada no USB, ele só pode ter vindo pelo Bluetooth.
      */
@@ -288,7 +289,7 @@ public class MainActivity extends Activity {
     private static boolean ehNomeMusicBox(String nome) {
         if (nome == null) return false;
         String n = nome.toLowerCase(Locale.ROOT).replace(" ", "").replace("_", "").replace("-", "");
-        return n.contains("musicbox");
+        return n.contains("musicbox") || n.contains("boxturner");
     }
 
     private boolean pedalNoCaboUsb() {
